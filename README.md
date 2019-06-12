@@ -5,6 +5,8 @@ This was created and live-coded at the ReactJS Dallas User Group in Frisco, TX a
 ## Set up
 
 - Clone this repo
+- Make a `.env` file and add this one line to it.
+  - `SKIP_PREFLIGHT_CHECK=true`
 - Run `yarn` in your terminal
 - Run `yarn start` to see the app
 - Add different components in the App.js file to see some examples of going through the React lifecycle methods
