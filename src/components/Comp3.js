@@ -33,10 +33,6 @@ class Comp3 extends React.Component {
       });
   }
 
-  handleUpdateCounter = (num) => () => {
-    this.setState(state => ({ count: state.count += num }))
-  }
-
   render() {
     const {
       apiData,

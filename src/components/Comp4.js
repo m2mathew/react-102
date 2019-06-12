@@ -15,6 +15,30 @@ class Comp4 extends React.Component {
   }
 
   componentDidMount() {
+    this.handleGetDadJokes();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // Watch out for infinite loops here!
+    const {
+      shouldAddJoke,
+    } = this.state;
+
+    if (prevState.shouldAddJoke !== shouldAddJoke) {
+      console.log('clicked button to add a joke');
+      // We should add some DAD JOKES here now
+      this.handleGetDadJokes();
+    }
+  }
+
+  componentWillUnmount() {
+    // This will never run in our app since we are either mounting it
+    //  all or unmounting it all for now.
+    // Or if break the app, you'll see this. 😂
+    alert('you left me!');
+  }
+
+  handleGetDadJokes = () => {
     axios({
       headers: {
         Accept: 'application/json',
@@ -39,35 +63,20 @@ class Comp4 extends React.Component {
       .finally(() => {
         console.log('it is finished');
       });
-  }
+  };
 
-  componentDidUpdate(prevProps, prevState) {
-    // Watch out for infinite loops here!
-    const {
-      shouldAddJoke,
-    } = this.state;
-
-    if (prevState.shouldAddJoke !== shouldAddJoke) {
-      console.log('clicked button to add a joke');
-      // We should add some DAD JOKES here now
-    }
-  }
-
-  componentWillUnmount() {
-    // This will never run in our app since we are either mounting it
-    //  all or unmounting it all for now.
-    // Or if break the app, you'll see this. 😂
-    alert('you left me!');
+  handleEmptyJokes = () => {
+    this.setState(state => ({
+      apiData: {
+        Items: [],
+      },
+    }));
   }
 
   handleUpdateNewJoke = () => {
     this.setState(state => ({
       shouldAddJoke: !state.shouldAddJoke,
     }));
-  }
-
-  handleUpdateCounter = (num) => () => {
-    this.setState(state => ({ count: state.count += num }))
   }
 
   render() {
@@ -99,6 +108,7 @@ class Comp4 extends React.Component {
           style={{
             border: '3px solid pink',
             display: 'flex',
+            flexDirection: 'column',
             justifyContent: 'center',
             fontSize: 20,
             lineHeight: 1.6,
@@ -107,7 +117,7 @@ class Comp4 extends React.Component {
             padding: 48,
           }}
         >
-          {hazJokes && apiData.Items.map(jk => !console.log('jk →', jk) && (
+          {hazJokes && apiData.Items.map((jk, index) => !console.log('jk →', jk) && (
             <div
               key={jk.id}
               style={{
@@ -122,6 +132,10 @@ class Comp4 extends React.Component {
 
         <button onClick={this.handleUpdateNewJoke}>
           Add a new joke
+        </button>
+
+        <button onClick={this.handleEmptyJokes}>
+          Empty joke box
         </button>
 
         <div
